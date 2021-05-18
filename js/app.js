@@ -9,11 +9,11 @@ var worker = new Worker('./js/cvWorker.js');
 var xx = Comlink.wrap(worker);
 let yy = xx.bob();
 yy.then(val => {
-    debugger;
+    //debugger;
 });
 let yy2 = xx.fred();
 yy2.then(val => {
-    debugger;
+    //debugger;
 });
 //worker.onmessage = (event) => {
 //    debugger;
