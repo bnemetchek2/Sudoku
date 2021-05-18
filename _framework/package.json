@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "@types/lodash": "^4.14.169",
+    "del": "5.1.0",
+    "gulp": "4.0.2",
+    "opencv-ts": "^1.2.13"
+  },
+  "dependencies": {
+    "@types/npm": "^2.0.31",
+    "comlink": "^4.3.1",
+    "lodash": "^4.17.21",
+    "systemjs": "^6.9.0"
+  },
+  "type": "module",
+  "types": "node_modules/opencv-ts/src/opencv.d.ts"
+}
