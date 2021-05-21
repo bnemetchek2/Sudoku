@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 importScripts("./static/opencv.js");
 importScripts("./static/comlink_UMD.js");
 //importScripts("https://unpkg.com/comlink/dist/umd/comlink.js");
-importScripts("./helpers.js");
+importScripts("./Helpers.js");
 // get root cv from the handler
 if (cv instanceof Function) {
     cv = cv();
