@@ -1,9 +1,4 @@
-// declare opencv types
-//import type cvType from "../node_modules/opencv-ts/src/opencv";
-// ambient declare will allow typed use of cv without emiting code
-//declare global {
-//	const cv: typeof cvType;
-//}
+//import { Helpers } from "./Helpers";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,25 +11,58 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 importScripts("./static/opencv.js");
 importScripts("./static/comlink_UMD.js");
 //importScripts("https://unpkg.com/comlink/dist/umd/comlink.js");
+importScripts("./helpers.js");
 // get root cv from the handler
 if (cv instanceof Function) {
     cv = cv();
 }
-class renfud {
+class myWorker {
+    constructor() {
+        //public bob () {
+        //	return 9;
+        //}
+        //public async fred () {
+        //	await this.sleep(5000);
+        //	return 99;
+        //}
+        this.isRunning = false;
+    }
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    bob() {
-        return 9;
-    }
-    fred() {
+    ProcessImage(imageData) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.sleep(5000);
-            return 99;
+            if (this.isRunning)
+                return null;
+            this.isRunning = true;
+            let result = null;
+            try {
+                let img = cv["matFromImageData"](imageData);
+                const depth = img.type() % 8;
+                let gray = new cv.Mat();
+                cv.cvtColor(img, gray, cv.COLOR_BGR2GRAY);
+                let canny = Helpers.AutoCanny(gray);
+                result = Helpers.imageDataFromMat(canny);
+                // cleanup
+                img.delete();
+                gray.delete();
+                canny.delete();
+                return result;
+            }
+            catch (ex) {
+                debugger;
+            }
+            finally {
+                this.isRunning = false;
+            }
+            //img.convertTo(gray, cv.cv
+            //cv.Mat.convertTo
+            //let bob = imageData.toString();
+            //const img = cv.matFromImageData(imageData)
         });
     }
 }
-let service = new renfud();
+let service = new myWorker();
 Comlink.expose(service);
 //this.addEventListener('message', async event => {
 //	let it = event.data;
@@ -43,4 +71,7 @@ Comlink.expose(service);
 //		let bob2 = cv.BORDER_REPLICATE;
 //	}
 //});
+//export {
+//	myWorker
+//}
 //# sourceMappingURL=cvWorker.js.map
